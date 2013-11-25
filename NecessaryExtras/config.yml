@@ -1,0 +1,76 @@
+######### Necessary Extras Config #########
+#    --- Plugin created by Skepter ---    #
+#                                         #
+#         Copyright c Skepter 2013        #
+#                                         # 
+# All features of this plugin is          #
+# copyrighted by Skepter. Any form of     #
+# copying or modifying this plugin is     #
+# completely forbidden.                   #
+########################################### 
+
+#NecessaryExtras will work as normal as long as you don't change this!
+#Changing the ConfigurationVersion will completely mess up this config file!
+ConfigurationVersion: 3.2
+
+###########################################
+#                                         #
+#  Feel free to adjust everything else    #
+#  That is below this box :)              #
+#                                         #
+###########################################
+
+#List of swear words to filter out
+#If a player says any of these words, it won't be shown in chat
+SwearWords:
+  - fuck
+  - shit
+  - cunt
+  - bitch
+
+#Message sent to player if they use one of the swear words from above
+SwearMessage: Please do not swear
+
+#Enable list of fake plugins?
+#If enabled, normal players (and those without permissions) will see this fake list
+EnableFakePluginList: false
+
+#Fake list - requires EnableFakePluginList to be true
+FakePlugins:
+  - Plugin1
+  - Plugin2
+
+#Color Scheme - changes color of prefixes and messages with this entire plugin
+#Types: default, red, green, purple, gold
+ColorScheme: default
+
+#Caps percentage, higher % = more chance of stopping caps.
+#0.00 = Disabled, 100 = No caps in chat at all, 60 = default
+CapsPercentage: 60
+
+#Ops can use consolecmd? (send console commands ingame)
+ConsoleCmdOps: false
+
+#Enable water in the nether?
+NetherWater: false
+
+#Check for updates?
+UpdateCheck: true
+
+#Enable double jumping?
+DoubleJump: false
+
+#Create signs on death?
+DeathSigns: false
+
+#Frozen players can place/break blocks?
+FreezePlace: false
+
+#Frozen players can receive/send damage?
+FreezeDamage: false
+
+#Frozen players can chat?
+FreezeChat: true
+
+#Players go to spawn if they fall into the void?
+VoidToSpawn: true

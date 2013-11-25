@@ -1,0 +1,55 @@
+name: NecessaryExtras
+main: com.droppages.Skepter.NecessaryExtrasCore
+author: Skepter
+version: 3.1
+description: Extra commands which Essentials doesn't have
+
+commands:
+  ForceChat:
+    description: Force a player to say something
+    usage: Use /ForceChat <player> <message>
+  Explode:
+    description: Create an explosion of a defined size
+    usage: Use /Explode <size>
+  Oplist:
+    description: See the list of players who are op
+    usage: Use /Oplist
+  ConsoleCmd:
+    description: Only to be used by VERY trusted players, allows them to run a command as the console
+    usage: Use /ConsoleCmd <command>
+  See:
+    description: Allows you to see in the dark
+    usage: use /See
+  FBroadcast:
+    description: Broadcast without a prefix
+    usage: use /FBroadcast <message>
+  Rename:
+    description: Renames the item in your hand
+    usage: use /Rename <name>
+  NE:
+    description: Shows list of NecessaryExtra's commands
+    usage: use /NE
+  log:
+    description: View commands sent by players
+    usage: use /log
+  ConsoleLog:
+    description: See a list of the log from the server console
+    usage: use /ConsoleLog
+  SignEdit:
+    description: Change the text on a sign
+    usage: use /SignEdit <line number> <text>
+  ClearChat:
+    description: Clears the server chat
+    usage: use /ClearChat
+  Head:
+    description: Create a player's head
+    usage: use /Head <player>
+  MSpawner:
+    description: Adjust a spawner's delay
+    usage: use /MSpawner <delay>
+  Cook:
+    description: Cook food in your hand
+    usage: use /Cook
+  Freeze:
+    description: Freeze players
+    usage: use /Freeze
