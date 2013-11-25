@@ -39,7 +39,7 @@ public class NecessaryExtrasCore extends JavaPlugin
 		
     Logger log = Logger.getLogger("Minecraft");
     protected UpdateChecker updateChecker;
-    String pluginname = "NessaryExtras";
+    String pluginname = "NecessaryExtras";
     public String prefix = null;
     public String text = null;
     public String SText = null;
