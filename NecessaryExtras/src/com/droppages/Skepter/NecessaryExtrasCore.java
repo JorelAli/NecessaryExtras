@@ -38,12 +38,12 @@ public class NecessaryExtrasCore extends JavaPlugin
 {
 		
     Logger log = Logger.getLogger("Minecraft");
-    protected UpdateChecker updateChecker;
     String pluginname = "NecessaryExtras";
     public String prefix = null;
     public String text = null;
     public String SText = null;
-    File configFile = new File(this.getDataFolder(), "config.yml");    
+    File configFile = new File(this.getDataFolder(), "config.yml");   
+	PluginDescriptionFile description = getDescription();
     
     public NecessaryExtrasCore()
     {
@@ -58,8 +58,7 @@ public class NecessaryExtrasCore extends JavaPlugin
     	    log.info("[NecessaryExtras] " + "This only sends small statistics about the server, but if you wish to opt out, you can adjust the settings in the PluginMetrics folder");
     	} catch (IOException e) {
     		log.warning("[NecessaryExtras] " + pluginname + " was unable to submit Metrics statistics");
-    	}
-    	PluginDescriptionFile description = getDescription();
+    	}    	
         getCommand("ForceChat").setExecutor(new ForceChat(this));
         getCommand("Explode").setExecutor(new Explode(this));
         getCommand("Oplist").setExecutor(new Oplist(this));
@@ -84,23 +83,12 @@ public class NecessaryExtrasCore extends JavaPlugin
         getServer().getPluginManager().registerEvents(new DoubleJumpListener(this), this);
         getServer().getPluginManager().registerEvents(new DeathListener(this), this);
         getServer().getPluginManager().registerEvents(new VoidListener(this), this);
-        //if(configFile.exists()) {
-        	//configurationUpdater(getConfig().getDouble("ConfigurationVersion"));
-        //} else {
-            saveDefaultConfig();
-        //}
+        
+        saveDefaultConfig();
         colorSchemeSetup();
         log.info("[NecessaryExtras] " + pluginname + " " + description.getVersion() + " activated!");
-        if(getConfig().getBoolean("UpdateCheck")) {
-        	this.updateChecker = new UpdateChecker(this, "http://dev.bukkit.org/bukkit-plugins/necessaryextras/files.rss");
-        	
-        	if(this.updateChecker.updateNeeded()){
-        		if(!(Double.parseDouble(this.updateChecker.getVersion()) <= Double.parseDouble(getDescription().getVersion()))) {
-        			log.info("[NecessaryExtras] " + "A new version is available: " + this.updateChecker.getVersion());
-            		log.info("[NecessaryExtras] " + "Get it from: " + this.updateChecker.getLink());
-        		}
-        	}
-        }
+        
+        //Gravity Low plugin updater
     }
 
     public void onDisable()
@@ -136,22 +124,6 @@ public class NecessaryExtrasCore extends JavaPlugin
     		SText = ChatColor.GOLD + "";
     		return;
     	}
-    }
-    
-    public void configurationUpdater(double versionOfConfig) {
-    	double version = versionOfConfig;
-    	double pversion = Double.parseDouble(getDescription().getVersion());
-    	if(version == pversion) {
-    		return; //config is up to date
-    	}
-    	if(version < pversion) {
-    		//get values
-    		configFile.delete();
-    		saveDefaultConfig();
-    		//set values
-    		//set config to updated state
-    	}
-    	
     }
 }
 

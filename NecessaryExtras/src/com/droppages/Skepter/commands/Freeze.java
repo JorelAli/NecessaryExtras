@@ -3,6 +3,7 @@ package com.droppages.Skepter.commands;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.bukkit.Bukkit;
 import org.bukkit.command.BlockCommandSender;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -28,12 +29,14 @@ public class Freeze implements CommandExecutor {
 		if(sender.hasPermission("NE.freeze") || sender.isOp() || sender instanceof ConsoleCommandSender || sender instanceof BlockCommandSender) {
 			if(command.getName().equalsIgnoreCase("Freeze")) {
 				if(args.length == 0) {
-					sender.sendMessage(plugin.prefix + "Sorry guys, I'm working on this as quick as possible - Skepter (NE Developer)");
-					return false;
+					//sender.sendMessage(plugin.prefix + "Sorry guys, I'm working on this as quick as possible - Skepter (NE Developer)");
+					//call event here!
+					return true;
 				}
 				if (args.length == 1) {
-					return false;
-				//add player to list
+					Player player = Bukkit.getPlayerExact(args[0]);
+					frozen.add(player);
+					return true;
 				}
 	    	}
 		}
@@ -43,8 +46,9 @@ public class Freeze implements CommandExecutor {
 	
 	@EventHandler
 	public void onMove(PlayerMoveEvent event) {
-		//if they move and are in the arraylist
-		//CANCEL :)
+		if(frozen.contains(event.getPlayer())) {
+			event.setCancelled(true);
+		}
 		//check Y moving axis
 		//block breaking
 		//recieve/send damage
