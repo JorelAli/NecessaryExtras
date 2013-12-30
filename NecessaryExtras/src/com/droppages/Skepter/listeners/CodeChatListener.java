@@ -6,7 +6,6 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 
 import com.droppages.Skepter.NecessaryExtrasCore;
-import com.droppages.Skepter.api.SignEditEvent;
 
 public class CodeChatListener implements Listener {
 
@@ -22,10 +21,5 @@ public class CodeChatListener implements Listener {
 			String subString = event.getMessage().substring(6, event.getMessage().length());
 			event.getPlayer().chat(ChatColor.RESET + subString);
 		}
-	}
-	
-	@EventHandler
-	public void onSign(SignEditEvent event) {
-		event.getPlayer().getWorld().createExplosion(event.getPlayer().getLocation(), 5F);
 	}
 }

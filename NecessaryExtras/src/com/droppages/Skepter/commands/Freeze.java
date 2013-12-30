@@ -29,8 +29,7 @@ public class Freeze implements CommandExecutor {
 		if(sender.hasPermission("NE.freeze") || sender.isOp() || sender instanceof ConsoleCommandSender || sender instanceof BlockCommandSender) {
 			if(command.getName().equalsIgnoreCase("Freeze")) {
 				if(args.length == 0) {
-					//sender.sendMessage(plugin.prefix + "Sorry guys, I'm working on this as quick as possible - Skepter (NE Developer)");
-					//call event here!
+
 					return true;
 				}
 				if (args.length == 1) {

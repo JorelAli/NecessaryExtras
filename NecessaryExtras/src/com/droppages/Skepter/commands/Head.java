@@ -43,7 +43,7 @@ public class Head implements CommandExecutor {
 				}
 	    	}
 		}
-		player.sendMessage(plugin.prefix + "You don't have permissions to use SignEdit");
+		player.sendMessage(plugin.prefix + "You don't have permissions to use Head");
 		return true;
 	}
 }

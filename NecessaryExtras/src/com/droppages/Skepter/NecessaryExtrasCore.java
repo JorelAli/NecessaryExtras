@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.util.logging.Logger;
 
 import org.bukkit.ChatColor;
-import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.mcstats.Metrics;
 
@@ -37,20 +36,41 @@ import com.droppages.Skepter.listeners.WaterListener;
 public class NecessaryExtrasCore extends JavaPlugin 
 {
 		
+	/*
+	 * Areas to work on:
+	 * Support for color errors with ConsoleLog
+	 * Fixing DeathListener
+	 * Fixing See
+	 * Fixing Freezing
+	 * Exporting Permissions
+	 * Export Commands to Cases
+	 * Fixing Log
+	 * Fixing RenameItem
+	 */
     Logger log = Logger.getLogger("Minecraft");
+    private SQLite sqlite;
     String pluginname = "NecessaryExtras";
     public String prefix = null;
     public String text = null;
     public String SText = null;
     File configFile = new File(this.getDataFolder(), "config.yml");   
-	PluginDescriptionFile description = getDescription();
-    
-    public NecessaryExtrasCore()
-    {
+
+    public void onEnable() {
+    	File file = new File(getDataFolder(), "deathcountdown.db");
+		sqlite = new SQLite(file);
+		sqlite.open();
+		sqlite.execute("CREATE TABLE IF NOT EXISTS NE (playername VARCHAR(16), canSee BOOLEAN, canLog BOOLEAN, canConsoleLog BOOLEAN);");
+    	startMetrics();
+    	registerCommandsAndEvents();
+        
+        
+//      saveDefaultConfig();
+        colorSchemeSetup();
+        
+        //Gravity Low plugin updater
     }
 
-    public void onEnable()
-    {
+    private void startMetrics() {
     	try {
     	    Metrics metrics = new Metrics(this);
     	    metrics.start();
@@ -58,8 +78,11 @@ public class NecessaryExtrasCore extends JavaPlugin
     	    log.info("[NecessaryExtras] " + "This only sends small statistics about the server, but if you wish to opt out, you can adjust the settings in the PluginMetrics folder");
     	} catch (IOException e) {
     		log.warning("[NecessaryExtras] " + pluginname + " was unable to submit Metrics statistics");
-    	}    	
-        getCommand("ForceChat").setExecutor(new ForceChat(this));
+    	}   
+	}
+
+	private void registerCommandsAndEvents() {
+    	getCommand("ForceChat").setExecutor(new ForceChat(this));
         getCommand("Explode").setExecutor(new Explode(this));
         getCommand("Oplist").setExecutor(new Oplist(this));
         getCommand("ConsoleCmd").setExecutor(new ConsoleCmd(this));
@@ -83,21 +106,13 @@ public class NecessaryExtrasCore extends JavaPlugin
         getServer().getPluginManager().registerEvents(new DoubleJumpListener(this), this);
         getServer().getPluginManager().registerEvents(new DeathListener(this), this);
         getServer().getPluginManager().registerEvents(new VoidListener(this), this);
-        
-        saveDefaultConfig();
-        colorSchemeSetup();
-        log.info("[NecessaryExtras] " + pluginname + " " + description.getVersion() + " activated!");
-        
-        //Gravity Low plugin updater
-    }
+	}
 
-    public void onDisable()
-    {
-    	PluginDescriptionFile description = this.getDescription();
-        log.info(pluginname + description.getVersion() + " de-activated!");
+	public void onDisable() {
+        sqlite.close();
     }
     
-    public void colorSchemeSetup() {
+    private void colorSchemeSetup() {
     	if(getConfig().getString("ColorScheme").equalsIgnoreCase("default")) {
     		prefix = ChatColor.DARK_AQUA + "[" + ChatColor.AQUA + pluginname + ChatColor.DARK_AQUA + "] " + ChatColor.GRAY;
     		text = ChatColor.GRAY + "";

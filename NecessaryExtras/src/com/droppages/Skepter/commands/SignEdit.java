@@ -2,14 +2,15 @@ package com.droppages.Skepter.commands;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.block.BlockFace;
 import org.bukkit.block.Sign;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.event.block.BlockPlaceEvent;
 
 import com.droppages.Skepter.NecessaryExtrasCore;
-import com.droppages.Skepter.api.SignEditEvent;
 
 public class SignEdit implements CommandExecutor {
 	
@@ -49,10 +50,8 @@ public class SignEdit implements CommandExecutor {
 							player.sendMessage(plugin.prefix + "Line doesn't exist");
 							return true;
 						}
-						//BlockPlaceEvent event1 = new BlockPlaceEvent(player.getTargetBlock(null, 256), sign, player.getTargetBlock(null, 256).getRelative(BlockFace.SELF), player.getItemInHand(), player, false);
-						//Bukkit.getServer().getPluginManager().callEvent(event1);
-						SignEditEvent event = new SignEditEvent(player, m2, Integer.parseInt(args[0]) -1, sign);
-						Bukkit.getServer().getPluginManager().callEvent(event);
+						BlockPlaceEvent event1 = new BlockPlaceEvent(player.getTargetBlock(null, 256), sign, player.getTargetBlock(null, 256).getRelative(BlockFace.SELF), player.getItemInHand(), player, true);
+						Bukkit.getServer().getPluginManager().callEvent(event1);
 						sign.setLine(Integer.parseInt(args[0]) -1, m2);
 						sign.update(true);
 						return true;
