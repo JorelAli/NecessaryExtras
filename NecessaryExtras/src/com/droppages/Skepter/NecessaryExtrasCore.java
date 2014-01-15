@@ -2,6 +2,7 @@ package com.droppages.Skepter;
 
 import java.io.File;
 import java.io.IOException;
+import java.sql.ResultSet;
 import java.util.logging.Logger;
 
 import org.bukkit.ChatColor;
@@ -33,9 +34,10 @@ import com.droppages.Skepter.listeners.SwearListener;
 import com.droppages.Skepter.listeners.VoidListener;
 import com.droppages.Skepter.listeners.WaterListener;
 
-public class NecessaryExtrasCore extends JavaPlugin 
-{
+public class NecessaryExtrasCore extends JavaPlugin  {
 		
+	/*This plugin is NUMBER 1 PRIORITY!*/
+	
 	/*
 	 * Areas to work on:
 	 * Support for color errors with ConsoleLog
@@ -46,6 +48,7 @@ public class NecessaryExtrasCore extends JavaPlugin
 	 * Export Commands to Cases
 	 * Fixing Log
 	 * Fixing RenameItem
+	 * Add updater support!
 	 */
     Logger log = Logger.getLogger("Minecraft");
     private SQLite sqlite;
@@ -59,7 +62,7 @@ public class NecessaryExtrasCore extends JavaPlugin
     	File file = new File(getDataFolder(), "deathcountdown.db");
 		sqlite = new SQLite(file);
 		sqlite.open();
-		sqlite.execute("CREATE TABLE IF NOT EXISTS NE (playername VARCHAR(16), canSee BOOLEAN, canLog BOOLEAN, canConsoleLog BOOLEAN);");
+		sqlite.execute("CREATE TABLE IF NOT EXISTS NE (playername VARCHAR(16), canSee BOOLEAN, isLogging BOOLEAN, isLoggingConsole BOOLEAN, isFrozen BOOLEAN);");
     	startMetrics();
     	registerCommandsAndEvents();
         
@@ -68,6 +71,10 @@ public class NecessaryExtrasCore extends JavaPlugin
         colorSchemeSetup();
         
         //Gravity Low plugin updater
+    }
+    
+	public void onDisable() {
+        sqlite.close();
     }
 
     private void startMetrics() {
@@ -98,6 +105,12 @@ public class NecessaryExtrasCore extends JavaPlugin
         getCommand("Cook").setExecutor(new Cook(this));
         getCommand("MSpawner").setExecutor(new MSpawner(this));
         getCommand("Freeze").setExecutor(new Freeze(this));
+        
+        /*
+         * Commands to add:
+         * FakeQuit
+         */
+        
         getServer().getPluginManager().registerEvents(new WaterListener(this), this);
         getServer().getPluginManager().registerEvents(new SwearListener(this), this);
         getServer().getPluginManager().registerEvents(new FakePluginListener(this), this);
@@ -107,10 +120,6 @@ public class NecessaryExtrasCore extends JavaPlugin
         getServer().getPluginManager().registerEvents(new DeathListener(this), this);
         getServer().getPluginManager().registerEvents(new VoidListener(this), this);
 	}
-
-	public void onDisable() {
-        sqlite.close();
-    }
     
     private void colorSchemeSetup() {
     	if(getConfig().getString("ColorScheme").equalsIgnoreCase("default")) {
@@ -139,6 +148,17 @@ public class NecessaryExtrasCore extends JavaPlugin
     		SText = ChatColor.GOLD + "";
     		return;
     	}
+    }
+    
+    
+    //is(canSee, playername, player.getName());
+    //SELECT canSee FROM NE WHERE playername = player.getName;
+    public boolean is(String key, String where, String value) {
+		ResultSet result = sqlite.executeQuery("SELECT " + key + " FROM NE WHERE " + where + "='" + value + "';");
+		String r = sqlite.resultToString(result, key);
+
+		return Boolean.valueOf(r);
+    	//return true;
     }
 }
 
