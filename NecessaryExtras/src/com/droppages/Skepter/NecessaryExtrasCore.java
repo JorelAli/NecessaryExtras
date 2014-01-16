@@ -9,6 +9,8 @@ import org.bukkit.ChatColor;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.mcstats.Metrics;
 
+import com.droppages.Skepter.Updater.UpdateResult;
+import com.droppages.Skepter.Updater.UpdateType;
 import com.droppages.Skepter.commands.ClearChat;
 import com.droppages.Skepter.commands.ConsoleCmd;
 import com.droppages.Skepter.commands.ConsoleLog;
@@ -48,8 +50,19 @@ public class NecessaryExtrasCore extends JavaPlugin  {
 	 * Export Commands to Cases
 	 * Fixing Log
 	 * Fixing RenameItem
-	 * Add updater support!
 	 */
+	
+	/*
+	 * Features coming into version 4.0:
+	 * SQLite database for storing player data 
+	 * Auto updating support
+	 */
+	
+	/*
+	 * Things done:
+	 * AutoUpdating
+	 */
+	
     Logger log = Logger.getLogger("Minecraft");
     private SQLite sqlite;
     String pluginname = "NecessaryExtras";
@@ -63,7 +76,7 @@ public class NecessaryExtrasCore extends JavaPlugin  {
 		sqlite = new SQLite(file);
 		sqlite.open();
 		sqlite.execute("CREATE TABLE IF NOT EXISTS NE (playername VARCHAR(16), canSee BOOLEAN, isLogging BOOLEAN, isLoggingConsole BOOLEAN, isFrozen BOOLEAN);");
-    	startMetrics();
+		UpdateAndMetrics();
     	registerCommandsAndEvents();
         
         
@@ -77,7 +90,13 @@ public class NecessaryExtrasCore extends JavaPlugin  {
         sqlite.close();
     }
 
-    private void startMetrics() {
+    private void UpdateAndMetrics() {
+    	if(getConfig().getBoolean("updateCheck")) {
+			Updater updater = new Updater(this, 64701, this.getFile(), UpdateType.NO_DOWNLOAD, true);
+			if (updater.getResult() == UpdateResult.UPDATE_AVAILABLE) {
+				this.getLogger().info("New version available! " + updater.getLatestName());
+			}
+		}
     	try {
     	    Metrics metrics = new Metrics(this);
     	    metrics.start();
