@@ -3,9 +3,11 @@ package com.droppages.Skepter;
 import java.io.File;
 import java.io.IOException;
 import java.sql.ResultSet;
+import java.util.ArrayList;
 import java.util.logging.Logger;
 
 import org.bukkit.ChatColor;
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.mcstats.Metrics;
 
@@ -32,6 +34,7 @@ import com.droppages.Skepter.listeners.CodeChatListener;
 import com.droppages.Skepter.listeners.DeathListener;
 import com.droppages.Skepter.listeners.DoubleJumpListener;
 import com.droppages.Skepter.listeners.FakePluginListener;
+import com.droppages.Skepter.listeners.JoinListener;
 import com.droppages.Skepter.listeners.SwearListener;
 import com.droppages.Skepter.listeners.VoidListener;
 import com.droppages.Skepter.listeners.WaterListener;
@@ -61,6 +64,7 @@ public class NecessaryExtrasCore extends JavaPlugin  {
 	/*
 	 * Things done:
 	 * AutoUpdating
+	 * Adding people to SQLite Database
 	 */
 	
     Logger log = Logger.getLogger("Minecraft");
@@ -127,7 +131,7 @@ public class NecessaryExtrasCore extends JavaPlugin  {
         
         /*
          * Commands to add:
-         * FakeQuit
+         * ?
          */
         
         getServer().getPluginManager().registerEvents(new WaterListener(this), this);
@@ -138,6 +142,7 @@ public class NecessaryExtrasCore extends JavaPlugin  {
         getServer().getPluginManager().registerEvents(new DoubleJumpListener(this), this);
         getServer().getPluginManager().registerEvents(new DeathListener(this), this);
         getServer().getPluginManager().registerEvents(new VoidListener(this), this);
+        getServer().getPluginManager().registerEvents(new JoinListener(this), this);
 	}
     
     private void colorSchemeSetup() {
@@ -178,6 +183,22 @@ public class NecessaryExtrasCore extends JavaPlugin  {
 
 		return Boolean.valueOf(r);
     	//return true;
+    }
+    
+    //Check if they're in there or not 
+    public boolean check(Player player) {
+		ResultSet result = sqlite.executeQuery("SELECT playername FROM NE;");
+		ArrayList<String> r = sqlite.resultToArray(result, "playername");
+		if(r == null || !(r.toString().contains(player.getName()))) {
+			return false;
+		} else {
+			return true;
+		}
+	}
+    
+    public void Add(Player player) {
+		sqlite.execute("INSERT INTO NE(playername, canSee, isLogging, isLoggingConsole, isFrozen) VALUES('" + player.getName() + "', 'false', 'false', 'false', 'false';");
+		return;
     }
 }
 
