@@ -1,7 +1,7 @@
 name: NecessaryExtras
 main: com.droppages.Skepter.NecessaryExtrasCore
 author: Skepter
-version: 4.0
+version: 3.2
 description: Extra commands which Essentials doesn't have
 
 commands:

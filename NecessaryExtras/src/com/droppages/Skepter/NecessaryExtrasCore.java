@@ -2,12 +2,9 @@ package com.droppages.Skepter;
 
 import java.io.File;
 import java.io.IOException;
-import java.sql.ResultSet;
-import java.util.ArrayList;
 import java.util.logging.Logger;
 
 import org.bukkit.ChatColor;
-import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.mcstats.Metrics;
 
@@ -34,14 +31,18 @@ import com.droppages.Skepter.listeners.CodeChatListener;
 import com.droppages.Skepter.listeners.DeathListener;
 import com.droppages.Skepter.listeners.DoubleJumpListener;
 import com.droppages.Skepter.listeners.FakePluginListener;
-import com.droppages.Skepter.listeners.JoinListener;
 import com.droppages.Skepter.listeners.SwearListener;
 import com.droppages.Skepter.listeners.VoidListener;
 import com.droppages.Skepter.listeners.WaterListener;
 
 public class NecessaryExtrasCore extends JavaPlugin  {
 		
-	/*This plugin is NUMBER 1 PRIORITY!*/
+	/*
+	 * Version 3.2
+	 * Just a SUPER QUICK update to fix up them F***ING signs all over the place!
+	 * Features:
+	 * Added section in config to disable death signs.
+	 */
 	
 	/*
 	 * Areas to work on:
@@ -68,7 +69,7 @@ public class NecessaryExtrasCore extends JavaPlugin  {
 	 */
 	
     Logger log = Logger.getLogger("Minecraft");
-    private SQLite sqlite;
+//    private SQLite sqlite;
     String pluginname = "NecessaryExtras";
     public String prefix = null;
     public String text = null;
@@ -76,22 +77,20 @@ public class NecessaryExtrasCore extends JavaPlugin  {
     File configFile = new File(this.getDataFolder(), "config.yml");   
 
     public void onEnable() {
-    	File file = new File(getDataFolder(), "deathcountdown.db");
-		sqlite = new SQLite(file);
-		sqlite.open();
-		sqlite.execute("CREATE TABLE IF NOT EXISTS NE (playername VARCHAR(16), canSee BOOLEAN, isLogging BOOLEAN, isLoggingConsole BOOLEAN, isFrozen BOOLEAN);");
+//    	File file = new File(getDataFolder(), "deathcountdown.db");
+//		sqlite = new SQLite(file);
+//		sqlite.open();
+//		sqlite.execute("CREATE TABLE IF NOT EXISTS NE (playername VARCHAR(16), canSee BOOLEAN, isLogging BOOLEAN, isLoggingConsole BOOLEAN, isFrozen BOOLEAN);");
 		UpdateAndMetrics();
     	registerCommandsAndEvents();
         
         
 //      saveDefaultConfig();
         colorSchemeSetup();
-        
-        //Gravity Low plugin updater
     }
     
 	public void onDisable() {
-        sqlite.close();
+//       sqlite.close();
     }
 
     private void UpdateAndMetrics() {
@@ -142,7 +141,7 @@ public class NecessaryExtrasCore extends JavaPlugin  {
         getServer().getPluginManager().registerEvents(new DoubleJumpListener(this), this);
         getServer().getPluginManager().registerEvents(new DeathListener(this), this);
         getServer().getPluginManager().registerEvents(new VoidListener(this), this);
-        getServer().getPluginManager().registerEvents(new JoinListener(this), this);
+//      getServer().getPluginManager().registerEvents(new JoinListener(this), this);
 	}
     
     private void colorSchemeSetup() {
@@ -175,6 +174,8 @@ public class NecessaryExtrasCore extends JavaPlugin  {
     }
     
     
+    /*
+    
     //is(canSee, playername, player.getName());
     //SELECT canSee FROM NE WHERE playername = player.getName;
     public boolean is(String key, String where, String value) {
@@ -200,6 +201,7 @@ public class NecessaryExtrasCore extends JavaPlugin  {
 		sqlite.execute("INSERT INTO NE(playername, canSee, isLogging, isLoggingConsole, isFrozen) VALUES('" + player.getName() + "', 'false', 'false', 'false', 'false';");
 		return;
     }
+    */
 }
 
     

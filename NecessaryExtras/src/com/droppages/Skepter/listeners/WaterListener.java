@@ -24,7 +24,7 @@ public class WaterListener implements Listener {
 				&& event.getPlayer().getItemInHand().getType() == Material.WATER_BUCKET
 				&& plugin.getConfig().getBoolean("NetherWater") == true) {
 			event.getClickedBlock().getRelative(event.getBlockFace())
-					.setType(Material.WATER);
+			.setType(Material.WATER);
 			;
 		} else {
 			return;
